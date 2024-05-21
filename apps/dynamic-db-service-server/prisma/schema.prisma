@@ -1,0 +1,42 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Table {
+  createdAt DateTime @default(now())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  schema    String?
+  tableName String?
+  updatedAt DateTime @updatedAt
+}
+
+model Column {
+  columnName String?
+  createdAt  DateTime            @default(now())
+  dataType   EnumColumnDataType?
+  id         String              @id @default(auto()) @map("_id") @db.ObjectId
+  isNullable Boolean?
+  updatedAt  DateTime            @updatedAt
+}
+
+model Relation {
+  createdAt    DateTime                  @default(now())
+  id           String                    @id @default(auto()) @map("_id") @db.ObjectId
+  relationType EnumRelationRelationType?
+  sourceTable  String?
+  targetTable  String?
+  updatedAt    DateTime                  @updatedAt
+}
+
+enum EnumColumnDataType {
+  Option1
+}
+
+enum EnumRelationRelationType {
+  Option1
+}
